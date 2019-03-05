@@ -1,8 +1,6 @@
-import numpy as np
 import cv2
-from goprocam import GoProCamera
 
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
 out = cv2.VideoWriter('output.avi', fourcc, 20.0, (640, 480))
 fgbg = cv2.bgsegm.createBackgroundSubtractorMOG()
@@ -23,3 +21,12 @@ while cap.isOpened():
 cap.release()
 out.release()
 cv2.destroyAllWindows()
+
+vidcap = cv2.VideoCapture('output.avi')
+success, image = vidcap.read()
+count = 0
+while success:
+    cv2.imwrite("./frames/frame%d.jpg" % count, image)     # save frame as JPEG file
+    success, image = vidcap.read()
+    print('Read a new frame: ', success)
+    count += 1
